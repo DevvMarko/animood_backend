@@ -10,6 +10,9 @@ WORKDIR /app
 COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 
+# >>> DODAJ TĘ LINIĘ, ABY NADAĆ UPRAWNIENIA DO WYKONANIA <<<
+RUN chmod +x ./mvnw
+
 # Pobieramy zależności Mavena - to przyspiesza kolejne buildy, jeśli zależności się nie zmieniły
 # Używamy ./mvnw, aby korzystać z wrappera z projektu
 RUN ./mvnw dependency:go-offline -B
