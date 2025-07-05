@@ -15,12 +15,11 @@ public class AnimeService {
 
     private final AnimeRepository animeRepository;
 
-    @Autowired // Wstrzykiwanie zależności przez konstruktor (zalecane)
+    @Autowired
     public AnimeService(AnimeRepository animeRepository) {
         this.animeRepository = animeRepository;
     }
 
-    // Zaktualizowana metoda do pobierania anime z wyszukiwaniem po tytule, filtrowaniem po gatunkach i sortowaniem
     public List<Anime> getAllAnime(String title, List<String> genres, Sort sort) {
         if (StringUtils.hasText(title)) {
             return animeRepository.findByTitleContainingIgnoreCase(title, sort);
@@ -43,7 +42,7 @@ public class AnimeService {
 
     // Metoda do aktualizacji istniejącego anime
     public Anime updateAnime(String id, Anime animeDetails) {
-        animeDetails.setId(id); // Upewniamy się, że ID jest ustawione
+        animeDetails.setId(id);
         return animeRepository.save(animeDetails);
     }
 

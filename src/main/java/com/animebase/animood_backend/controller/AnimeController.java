@@ -6,29 +6,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.data.domain.Sort; // Dodaj ten import
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.Optional;
 
 
-@RestController // Łączy @Controller i @ResponseBody - upraszcza tworzenie RESTful API
-@RequestMapping("/api/anime") // Wszystkie żądania do tego kontrolera będą zaczynać się od /api/anime
+@RestController
+@RequestMapping("/api/anime")
 public class AnimeController {
 
-    private final AnimeService animeService; // Zależność do serwisu
+    private final AnimeService animeService;
 
-    @Autowired // Wstrzykiwanie zależności przez konstruktor
+    @Autowired
     public AnimeController(AnimeService animeService) {
         this.animeService = animeService;
     }
 
-    // Endpoint do tworzenia nowego anime
-    // HTTP POST na /api/anime
     @PostMapping
     public ResponseEntity<Anime> createAnime(@RequestBody Anime anime) {
         Anime createdAnime = animeService.createAnime(anime);
-        return new ResponseEntity<>(createdAnime, HttpStatus.CREATED); // Zwraca 201 Created
+        return new ResponseEntity<>(createdAnime, HttpStatus.CREATED);
     }
 
     // Endpoint do pobierania wszystkich anime
@@ -68,7 +66,7 @@ public class AnimeController {
         try {
             Anime updatedAnime = animeService.updateAnime(id, animeDetails);
             return new ResponseEntity<>(updatedAnime, HttpStatus.OK);
-        } catch (RuntimeException e) { // Prosta obsługa jeśli np. updateAnime rzuca wyjątek gdy nie znajdzie
+        } catch (RuntimeException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -78,8 +76,8 @@ public class AnimeController {
     public ResponseEntity<HttpStatus> deleteAnime(@PathVariable String id) {
         try {
             animeService.deleteAnime(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Zwraca 204 No Content (sukces, brak treści)
-        } catch (Exception e) { // np. EmptyResultDataAccessException jeśli Spring Data tak rzuca
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

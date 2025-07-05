@@ -10,23 +10,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
-@Data // Automatycznie generuje gettery, settery, toString(), equals(), hashCode()
-@NoArgsConstructor // Automatycznie generuje konstruktor bezargumentowy
-@AllArgsConstructor // Automatycznie generuje konstruktor z wszystkimi argumentami
-@Document(collection = "anime_series") // Oznacza tę klasę jako dokument MongoDB i określa nazwę kolekcji
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Document(collection = "anime_series")
 public class Anime {
 
-    @Id // Oznacza to pole jako identyfikator dokumentu w MongoDB
-    private String id; // Unikalny identyfikator dla każdego anime (MongoDB może go generować automatycznie)
+    @Id
+    private String id;
 
-    private String title; // Tytuł anime
-    private List<String> genres; // Lista gatunków dla anime
-    private String description; // Opis anime
-    private String imageUrl; // <-- DODANE NOWE POLE
+    private String title;
+    private List<String> genres;
+    private String description;
+    private String imageUrl;
 
-    // Jeśli nie używasz Lombok, musisz ręcznie dodać:
-    // - Konstruktor bezargumentowy
-    // - Konstruktor z wszystkimi polami (lub wybranymi)
-    // - Gettery i settery dla wszystkich pól
-    // - Opcjonalnie metody toString(), equals(), hashCode()
 }
