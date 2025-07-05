@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort; // Dodaj ten import
 import java.util.List;
 import java.util.Optional;
 
+
 @RestController // Łączy @Controller i @ResponseBody - upraszcza tworzenie RESTful API
 @RequestMapping("/api/anime") // Wszystkie żądania do tego kontrolera będą zaczynać się od /api/anime
 public class AnimeController {
@@ -32,8 +33,6 @@ public class AnimeController {
 
     // Endpoint do pobierania wszystkich anime
     // HTTP GET na /api/anime
-    // Zaktualizowany endpoint do pobierania wszystkich anime z opcją filtrowania i sortowania
-    // Zaktualizowany endpoint do pobierania wszystkich anime
     @GetMapping
     public ResponseEntity<List<Anime>> getAllAnime(
             @RequestParam(required = false) String title, // Dodajemy parametr title
@@ -46,16 +45,15 @@ public class AnimeController {
             Sort.Direction direction = sortDir.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
             sort = Sort.by(direction, sortBy);
         } else {
-            sort = Sort.by(Sort.Direction.ASC, "id"); // Domyślne sortowanie po ID
+            sort = Sort.by(Sort.Direction.ASC, "id");
         }
 
-        List<Anime> animeList = animeService.getAllAnime(title, genres, sort); // Przekazujemy title, genres i sort
+        List<Anime> animeList = animeService.getAllAnime(title, genres, sort);
         return new ResponseEntity<>(animeList, HttpStatus.OK);
     }
 
 
     // Endpoint do pobierania pojedynczego anime po ID
-    // HTTP GET na /api/anime/{id}
     @GetMapping("/{id}")
     public ResponseEntity<Anime> getAnimeById(@PathVariable String id) {
         Optional<Anime> animeOptional = animeService.getAnimeById(id);
@@ -64,12 +62,9 @@ public class AnimeController {
     }
 
     // Endpoint do aktualizacji istniejącego anime
-    // HTTP PUT na /api/anime/{id}
     @PutMapping("/{id}")
     public ResponseEntity<Anime> updateAnime(@PathVariable String id, @RequestBody Anime animeDetails) {
-        // W idealnym przypadku, serwis powinien zwrócić Optional lub rzucić wyjątek, jeśli anime nie istnieje
-        // Tutaj dla uproszczenia zakładamy, że serwis obsłuży logikę aktualizacji
-        // lub rzuci wyjątek, który można by obsłużyć globalnym exception handlerem.
+
         try {
             Anime updatedAnime = animeService.updateAnime(id, animeDetails);
             return new ResponseEntity<>(updatedAnime, HttpStatus.OK);
@@ -79,11 +74,8 @@ public class AnimeController {
     }
 
     // Endpoint do usuwania anime
-    // HTTP DELETE na /api/anime/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteAnime(@PathVariable String id) {
-        // Warto sprawdzić czy zasób istnieje przed usunięciem, aby zwrócić odpowiedni status
-        // np. jeśli serwis rzuca wyjątek gdy nie znajdzie, można to tu obsłużyć
         try {
             animeService.deleteAnime(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT); // Zwraca 204 No Content (sukces, brak treści)
